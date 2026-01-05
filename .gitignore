@@ -20,3 +20,13 @@ Thumbs.db
 
 # --- Environment Variables (Security) ---
 .env
+
+# Ignore Terraform heavy files
+PHASE4/.terraform/
+PHASE4/*.tfstate
+PHASE4/*.tfstate.backup
+PHASE4/.terraform.lock.hcl
+
+# Ignore Python heavy files
+*.pyc
+
