@@ -1,0 +1,22 @@
+# --- Python Basics ---
+__pycache__/
+*.py[cod]
+*.so
+
+# --- Virtual Environment (CRITICAL) ---
+# Matches your folder name from the screenshot
+.venv/
+venv/
+env/
+
+# --- JetBrains IDE (CRITICAL) ---
+# Keeps your personal editor settings local
+.idea/
+*.iml
+
+# --- Operating System Junk ---
+Thumbs.db
+.DS_Store
+
+# --- Environment Variables (Security) ---
+.env
