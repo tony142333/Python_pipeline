@@ -1,0 +1,47 @@
+name: CI Pipeline - Phase 2
+
+# 1. TRIGGER: Run on every push to main
+on:
+  push:
+    branches: [ "main" ]
+
+# 2. THE JOB
+jobs:
+  quality_gate:
+    name: Test, Lint & Build
+    runs-on: ubuntu-latest
+
+    steps:
+      # --- STEP A: SETUP ---
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Python 3.9
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.9'
+
+      - name: Install Dependencies
+        run: |
+          pip install --upgrade pip
+          pip install flake8 pytest
+          # Point to the requirements inside the subfolder
+          pip install -r PHASE1/app/requirements.txt
+
+      # --- STEP B: LOGIC TEST (PyTest) ---
+      - name: Run Unit Tests
+        # Run pytest on the subfolder
+        run: pytest PHASE1/app/
+
+      # --- STEP C: GRAMMAR CHECK (Flake8) ---
+      - name: Lint with Flake8
+        # Stop the build if there are syntax errors or undefined names
+        # We target the PHASE1/app folder
+        run: |
+          flake8 PHASE1/app/ --count --select=E9,F63,F7,F82 --show-source --statistics
+
+      # --- STEP D: DRY RUN PACKAGE (Docker) ---
+      - name: Test Docker Build
+        # Tries to build the container using the Dockerfile in Root
+        # It looks down into PHASE1/app because we configured the Dockerfile that way
+        run: docker build . --file Dockerfile -t test-image:latest
