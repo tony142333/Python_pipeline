@@ -48,3 +48,5 @@ jobs:
           push: true
           # This names your image: username/repo-name:tag
           tags: ${{ secrets.DOCKER_USERNAME }}/pipeline-demo:v1
+
+
